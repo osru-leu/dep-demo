@@ -27,12 +27,12 @@ jobs:
         run: |
           go mod download
 
-      - name: Build and run
+      - name: Build binary
         run: |
           BRANCH=${GITHUB_REF##*/}
-          RM_CHARS=$(echo "${BRANCH}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g')
-          VERSION=${GITHUB_REF##*/}-$(date +%Y%m%d).${GITHUB_RUN_NUMBER}
-          COMMIT_HASH=$(git rev-parse --short HEAD)
+          CLEAN_BRANCH=$(echo "${BRANCH}" | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g')
+          VERSION=${CLEAN_BRANCH}-$(date +%Y%m%d).${GITHUB_RUN_NUMBER}
+          COMMIT_HASH=$(git rev-parse HEAD)
           go build -ldflags "-X main.version=$VERSION -X main.commitHash=$COMMIT_HASH" ./...
         
       - name: Run binary
