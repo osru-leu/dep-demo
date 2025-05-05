@@ -12,7 +12,7 @@ var (
 )
 
 func main() {
-	fmt.Printf("Hello, World!\nVersion: %s\nCommit Hash: %s\n Run Number: %s\n", version, commitHash, runNumber)
+	fmt.Printf("Hello, World!\nVersion: %s\nCommit Hash: %s\n", version, commitHash)
 }
 // func main() {
 // 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {

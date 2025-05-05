@@ -31,7 +31,6 @@ jobs:
         run: |
           VERSION=${GITHUB_REF##*/}-$(date +%Y%m%d).${GITHUB_RUN_NUMBER}
           COMMIT_HASH=$(git rev-parse --short HEAD)
-          RUN_NUMBER=${GITHUB_RUN_NUMBER}
-          go build -ldflags "-X main.version=$VERSION -X main.commitHash=$COMMIT_HASH -X main.runNumber=$RUN_NUMBER" -v ./...
+          go build -ldflags "-X main.version=$VERSION -X main.commitHash=$COMMIT_HASH" -v ./...
           ./hello-world
         
