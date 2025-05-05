@@ -8,7 +8,6 @@ import (
 var (
 	version string
 	commitHash string
-	runNumber string
 )
 
 func main() {
