@@ -8,10 +8,11 @@ import (
 var (
 	version string
 	commitHash string
+	runNumber string
 )
 
 func main() {
-	fmt.Printf("Hello, World!\nVersion: %s\nCommit Hash: %s\n", version, commitHash)
+	fmt.Printf("Hello, World!\nVersion: %s\nCommit Hash: %s\n Run Number: %s\n", version, commitHash, runNumber)
 }
 // func main() {
 // 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
