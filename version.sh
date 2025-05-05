@@ -1,9 +1,9 @@
 #!/bin/bash   
 
-# VERSION=local-$(date +%Y%m%d)
-# COMMIT_HASH=$(git rev-parse --short HEAD)
 BRANCH=${GITHUB_REF##*/}
-CLEAN_BRANCH=$(echo "${BRANCH}" | tr -d '-' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/-/g')
+BRANCH=${BRANCH#feature/} # Not needed for github
+
+CLEAN_BRANCH=$(echo "${BRANCH}" | tr -d '-' | tr '[:upper:]' '[:lower:]' | sed 's/[^a-z0-9]/_/g')
 VERSION=${CLEAN_BRANCH}-$(date +%Y%m%d).${GITHUB_RUN_NUMBER}
 COMMIT_HASH=$(git rev-parse HEAD)
 
