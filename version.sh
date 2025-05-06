@@ -3,7 +3,7 @@
 # Determine CI or Local
 if [ -n "$GITHUB_REF" ]; then
     # Github env
-    BRANCH=${GITHUB_REF}
+    BRANCH=${GITHUB_REF##*/}
     RUN_NUMBER=${GITHUB_RUN_NUMBER}
 elif [ -n "$BITBUCKET_BRANCH" ]; then
     # Bitbucket env
