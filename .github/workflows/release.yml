@@ -1,11 +1,26 @@
 name: Release
 
-on:
-  push:
-    tags:
-      - 'v*'
-    branches:
-      - main
+on: # this is an or not an and
+  # push:
+  #   tags:
+  #     - 'v*'
+  #   branches:
+  #     - main
+
+  workflow_dispatch:
+    inputs:
+      release_bump:
+        description: 'Release bump (ignored if version_override is provided)'
+        required: true
+        default: 'Minor'
+        type: choice
+        options:
+          - Major
+          - Minor
+          - Patch
+      version_override:
+        description: 'Optional: manually specify version (e.g., v1.3.0)'
+        required: false
 
 permissions:
   contents: write
