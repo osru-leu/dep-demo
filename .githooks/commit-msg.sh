@@ -1,0 +1,21 @@
+#!/bin/bash
+
+# Path to commit message file
+commit_msg_file="$1"
+# Read the commit message
+commit_msg=$(cat "$commit_msg_file")
+# Conventional commit pattern
+# Format: <type>[optional scope]: <description>
+# Types: fix, feat, build, docs, style, refactor, perf, test, chore
+commit_pattern='^(fix|feat|build|docs|style|refactor|perf|test|chore)(\([a-z0-9]+\))?: .+$'
+
+if ! [[ "$commit_msg" =~ $commit_pattern ]]; then
+    echo "Error: Commit message format is incorrect."
+    echo "It should match conventional-commits: <type>[optional scope]: <description>"
+    echo "Allowed types: fix, feat, build, docs, style, refactor, perf, test, chore"
+    echo "Example: feat(auth): add login functionality" #does this currently translate the () in my releaser?
+    echo ""
+    echo "Your commit message:"
+    echo "$commit_msg"
+    exit 1
+fi
