@@ -16,6 +16,7 @@ changelog:
   filters:
     exclude:
       - '^test:'
+      - '^docs:'
   groups:
     - title: "Features"
       regexp: '^feat:'
@@ -23,8 +24,14 @@ changelog:
       regexp: '^fix:'
     - title: "Build"
       regexp: '^build:'
-    - title: "Documents"
-      regexp: '^docs:'
+    - title: "Continuous Integration"
+      regexp: '^ci:'
+    - title: "Chores"
+      regexp: '^chore:'
+    - title: "Style"
+      regexp: '^style'
+    - title: "Performance"
+      regexp: '^perf:'
   use: github
 
 archives:

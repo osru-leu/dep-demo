@@ -19,3 +19,5 @@ if ! [[ "$commit_msg" =~ $commit_pattern ]]; then
     echo "$commit_msg"
     exit 1
 fi
+
+# Add logic from squash.sh
