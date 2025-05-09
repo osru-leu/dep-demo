@@ -11,6 +11,13 @@ builds:
       - amd64
       - arm64
 
+changelog:
+  sort: asc
+  filters:
+    exclude:
+      - '^docs:'
+      - '^test:'
+  use: conventional-commits
 
 archives:
   - format: tar.gz
