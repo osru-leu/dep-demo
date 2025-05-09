@@ -21,3 +21,4 @@ if ! [[ "$commit_msg" =~ $commit_pattern ]]; then
 fi
 
 # Add logic from squash.sh
+# line added for testing squash.sh
