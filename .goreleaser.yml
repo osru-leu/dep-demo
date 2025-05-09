@@ -15,8 +15,16 @@ changelog:
   sort: asc
   filters:
     exclude:
-      - '^docs:'
       - '^test:'
+  groups:
+    - title: "Features"
+      regexp: '^feat:'
+    - title: "Fixes"
+      regexp: '^fix:'
+    - title: "Build"
+      regexp: '^build:'
+    - title: "Documents"
+      regexp: '^docs:'
   use: github
 
 archives:
