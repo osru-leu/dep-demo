@@ -14,7 +14,9 @@ on:
           - Patch
       version_override:
         description: 'Optional: manually specify version (e.g., v1.3.0)'
-        required: true
+        required: false
+        type: string
+
 
 permissions:
   contents: write
