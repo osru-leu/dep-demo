@@ -1,26 +1,94 @@
 #!/bin/bash
 
-# Path to commit message file
+# Path to the commit message file
 commit_msg_file="$1"
+
 # Read the commit message
 commit_msg=$(cat "$commit_msg_file")
-# Conventional commit pattern
-# Format: <type>[optional scope]: <description>
-# Types: fix, feat, build, docs, style, refactor, perf, test, chore
-commit_pattern='^(fix|feat|build|docs|style|refactor|perf|test|chore)(\([a-z0-9]+\))?: .+$'
+
+# Conventional commit pattern matching your goreleaser groups
+commit_pattern='^(feat|fix|build|ci|chore|style|perf)(\([a-z0-9-]+\))?: .+$'
 
 if ! [[ "$commit_msg" =~ $commit_pattern ]]; then
     echo "Error: Commit message format is incorrect."
-    echo "It should match conventional-commits: <type>[optional scope]: <description>"
-    echo "Allowed types: fix, feat, build, docs, style, refactor, perf, test, chore"
-    echo "Example: feat(auth): add login functionality" #does this currently translate the () in my releaser?
+    echo "It should match: <type>[optional scope]: <description>"
+    echo "Allowed types: feat, fix, build, ci, chore, style, perf"
+    echo "Example: feat(auth): add login functionality"
     echo ""
     echo "Your commit message:"
     echo "$commit_msg"
     exit 1
 fi
 
-# Add logic from squash.sh
-# line added for testing squash.sh
-# another commenta added for testing squash.sh
-# one more
+# If we get here, the commit message format is valid
+echo "Commit message format is valid!"
+
+# Function to count commits of a specific type
+count_commits() {
+    prefix=$1
+    count=$(git log --oneline | grep "^.*$prefix" | wc -l)
+    echo "$count"
+}
+
+# Function to squash commits
+squash_commits() {
+    prefix=$1
+    # Get list of commits with prefix, newest first
+    commits=$(git log --oneline | grep "^.*$prefix" | awk '{print $1}')
+
+    if [ -z "$commits" ]; then
+        echo "No commits found with prefix: $prefix"
+        return
+    fi
+
+    # Create a temporary rebase todo file
+    temp_file=$(mktemp)
+    oldest_commit=$(echo "$commits" | tail -n1)
+    echo "Processing commits with prefix '$prefix' from $oldest_commit"
+    
+    # Write the rebase commands to the temp file
+    echo "pick ${oldest_commit} $(git log --format=%B -n 1 ${oldest_commit})" > "$temp_file"
+    
+    # Add squash commands for other commits
+    while read -r commit; do
+        if [ "$commit" != "$oldest_commit" ]; then
+            echo "squash ${commit} $(git log --format=%B -n 1 ${commit})" >> "$temp_file"
+        fi
+    done <<< "$commits"
+
+    # Use the temp file for rebasing
+    export GIT_SEQUENCE_EDITOR="cat $temp_file >"
+    git rebase -i "${oldest_commit}^"
+    
+    # Cleanup
+    rm "$temp_file"
+}
+
+# Extract the commit type from the current commit message
+current_type=$(echo "$commit_msg" | sed -E 's/^(feat|fix|build|ci|chore|style|perf).*/\1/')
+
+# Count commits of the current type
+commit_count=$(count_commits "${current_type}:")
+
+# Only prompt for squashing if there are multiple commits of the same type
+if [ "$commit_count" -gt 1 ]; then
+    echo ""
+    echo "Found $commit_count commits with type '${current_type}'"
+    echo "WARNING: Squashing commits should only be done before a pull request!"
+    echo "Squashing commits will rewrite git history and make it harder to revert individual changes."
+    echo "Would you like to squash similar conventional commits now? (y/N)"
+    read -r response
+
+    # Convert response to lowercase
+    response_lower=$(echo "$response" | tr '[:upper:]' '[:lower:]')
+
+    if [[ "$response_lower" == "y" || "$response_lower" == "yes" ]]; then
+        squash_commits "${current_type}:"
+    else
+        echo "Okay, your changes are ready to be pushed!"
+    fi
+else
+    echo "No additional commits of type '${current_type}' found. Your changes are ready to be pushed!"
+fi
+
+exit 0
