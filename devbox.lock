@@ -1,0 +1,153 @@
+{
+  "lockfile_version": "1",
+  "packages": {
+    "github:NixOS/nixpkgs/nixpkgs-unstable": {
+      "last_modified": "2025-05-07T00:09:58Z",
+      "resolved": "github:NixOS/nixpkgs/b3582c75c7f21ce0b429898980eddbbf05c68e55?lastModified=1746576598&narHash=sha256-FshoQvr6Aor5SnORVvh%2FZdJ1Sa2U4ZrIMwKBX5k2wu0%3D"
+    },
+    "go@1.24.2": {
+      "last_modified": "2025-04-17T05:47:26Z",
+      "resolved": "github:NixOS/nixpkgs/ebe4301cbd8f81c4f8d3244b3632338bbeb6d49c#go",
+      "source": "devbox-search",
+      "version": "1.24.2",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/fd2s1z3why92qn8w7j6r0xlarikpv27v-go-1.24.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/fd2s1z3why92qn8w7j6r0xlarikpv27v-go-1.24.2"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/kxiwzqk0rg2qfw2n246cgp9p5k46zw72-go-1.24.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/kxiwzqk0rg2qfw2n246cgp9p5k46zw72-go-1.24.2"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/m69ix2b1g4npzx093dxvbx3z5gzd0c1n-go-1.24.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/m69ix2b1g4npzx093dxvbx3z5gzd0c1n-go-1.24.2"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/czwkf2ly24qy4gssd2scmjklp36b3pda-go-1.24.2",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/czwkf2ly24qy4gssd2scmjklp36b3pda-go-1.24.2"
+        }
+      }
+    },
+    "goreleaser@latest": {
+      "last_modified": "2025-04-30T16:14:55Z",
+      "resolved": "github:NixOS/nixpkgs/70b191e2e0b1b5fe8586ad939dfa01f3047865f7#goreleaser",
+      "source": "devbox-search",
+      "version": "2.9.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/80r1z38i8184lp7xxcs6ss9khszh4gyf-goreleaser-2.9.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/80r1z38i8184lp7xxcs6ss9khszh4gyf-goreleaser-2.9.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/pg2by80fn5i3dgxkl0ad4m56njvpjnax-goreleaser-2.9.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/pg2by80fn5i3dgxkl0ad4m56njvpjnax-goreleaser-2.9.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/r879776j6ymhyd3fg1jlqsy4v5aca5nd-goreleaser-2.9.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/r879776j6ymhyd3fg1jlqsy4v5aca5nd-goreleaser-2.9.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/iibmw8lki8rf2kanzpg6c6n9llfq1737-goreleaser-2.9.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/iibmw8lki8rf2kanzpg6c6n9llfq1737-goreleaser-2.9.0"
+        }
+      }
+    },
+    "nushell@latest": {
+      "last_modified": "2025-04-30T16:14:55Z",
+      "resolved": "github:NixOS/nixpkgs/70b191e2e0b1b5fe8586ad939dfa01f3047865f7#nushell",
+      "source": "devbox-search",
+      "version": "0.104.0",
+      "systems": {
+        "aarch64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/07m132l9qj6mnl8f5hdjqbc5ywhvfv3f-nushell-0.104.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/07m132l9qj6mnl8f5hdjqbc5ywhvfv3f-nushell-0.104.0"
+        },
+        "aarch64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/ysm18d7xk7w466h3vz0mvyrlwbamkir6-nushell-0.104.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/ysm18d7xk7w466h3vz0mvyrlwbamkir6-nushell-0.104.0"
+        },
+        "x86_64-darwin": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/391ra8g300hbqclr8rvpdyy12xff62jc-nushell-0.104.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/391ra8g300hbqclr8rvpdyy12xff62jc-nushell-0.104.0"
+        },
+        "x86_64-linux": {
+          "outputs": [
+            {
+              "name": "out",
+              "path": "/nix/store/wn3ramvks8ixi6lbzjyiidh6bw21n1ip-nushell-0.104.0",
+              "default": true
+            }
+          ],
+          "store_path": "/nix/store/wn3ramvks8ixi6lbzjyiidh6bw21n1ip-nushell-0.104.0"
+        }
+      }
+    }
+  }
+}

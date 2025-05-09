@@ -1,0 +1,17 @@
+{
+    "packages": [
+        "go@1.24.2",
+        "nushell@latest",
+        "goreleaser@latest"
+    ],
+    "shell": {
+        "init_hook": [
+            "echo 'Devbox environment loaded!'"
+        ],
+        "scripts": {
+            "test": "go test ./...",
+            "build": "go build -o hello-world",
+            "run": "go run main.go"
+        }
+    }
+} 
