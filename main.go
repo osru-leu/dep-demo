@@ -7,8 +7,8 @@ import (
 )
 
 var (
-	version    string
-	commitHash string
+	version    = "[Will be set during CI build]"
+	commitHash = "[Will be set during CI build]"
 )
 
 func main() {
