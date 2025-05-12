@@ -1,4 +1,4 @@
-site_name: Scratch Hello World
+site_name: Dep Demo
 nav:
   - Home: index.md
   - About: about.md

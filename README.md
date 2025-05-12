@@ -1,22 +1,57 @@
+# DEP DEMO
+
+This project uses MkDocs. For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+
+## Commands
+
+* `mkdocs new [dir-name]` - Create a new project.
+* `mkdocs serve` - Start the live-reloading docs server.
+* `mkdocs build` - Build the documentation site.
+* `mkdocs -h` - Print help message and exit.
+
+## Project layout
+
+    mkdocs.yml    # The configuration file.
+    docs/
+        index.md  # The documentation homepage.
+        ...       # Other markdown pages, images and other files.
+
 # Dep Demo
 
 ## Development Environment
 
 ### Using Devbox
 
-This project uses devbox for development environment management. To get started:
-1. **Install Devbox**:
-    ```bash
-    curl -fsSL https://get.jetpack.io/devbox | bash
-    ```
-2. **Start Development Environment**:
-    ```bash
-    devbox shell
+This project uses devbox for development environment management. 
+To get started:
+
+1. **First Time Setup**:
+   
+   ```bash
+   # Install devbox
+   curl -fsSL https://get.jetpack.io/devbox | bash
+
+   # Initialize devbox
+   devbox init
+
+   # Add nushell to devbox
+   devbox add nu
+   ```
+
+2. **Regular Usage**:
+  
+   ```bash
+   # Enter devbox environment
+   devbox shell
+
+   # Start nushell (optional)
+   nu
     ```
 ## Running the Application
 
 ### Local Development
 1. **Run the Go Application**:
+   
     ```bash
     go run main.go
     ```
@@ -30,10 +65,12 @@ This project uses devbox for development environment management. To get started:
 ### Docker and Kind Cluster Deployment
 
 1. **Build Docker Image**:
+  
     ```bash
     docker build -t hello-world:latest .
     ```
 2. **Run Docker Container locally**:
+   
     ```bash
     docker run -p 8080:8080 hello-world:latest
     ```
@@ -41,6 +78,7 @@ This project uses devbox for development environment management. To get started:
 ### Kubernetes Deployment
 
 1. **Create and Load into Kind Cluster**:
+   
     ```bash
     # Create kind cluster
     kind create cluster
@@ -50,7 +88,8 @@ This project uses devbox for development environment management. To get started:
     ```
 
 2. **Deploy to Kind Cluster**:
-    ```bash
+  
+   ```bash
     # Apply the deployment and service
     kubectl apply -f deployent.yml
 
@@ -62,15 +101,17 @@ This project uses devbox for development environment management. To get started:
 ### Debugging Scrachg Container in Kind
 
 1. **Add Ephemeral Debug Container**:
+    
     ```bash
     # Get the pod name
     kubectl get pods
 
     # Attach ephemeral debug container
-    kubectl debut -it <pod-name> --image=alpine --target=hello
+    kubectl debug -it <pod-name> --image=alpine --target=hello
     ```
 
 2. **Inside Debug Container**:
+    
     ```bash
     # Install debugging tools
     apk add curl wget netcat-openbsd
@@ -94,11 +135,11 @@ This project uses devbox for development environment management. To get started:
     - No changes to the original deployment are required
 
 4. **Exit and Cleanup**:
+   
     ```bash
     # Exit the debug session
     exit
 
     # The ephemeral contaier is automatically cleaned up
     ```
-
 
