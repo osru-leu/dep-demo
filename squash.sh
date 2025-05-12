@@ -2,12 +2,14 @@
 
 squash_commits() {
     prefix=$1
-    # Get list of commits with prefix, newest first
-    commits=$(git log --oneline | grep "^.*$prefix" | awk '{print $1}')
+    # Get list of commits with prefix, excluding commit-msg related commits
+    commits=$(git log --oneline | grep "^.*prefix" | \
+        grep -v -E "commit-msg|validation script|commit validation" | \
+        awk '{print $1}')
 
     if [ -z "$commits" ]; then
-        echo "No commits found with prefix: $prefix"
-        return
+       echo "No commits found with prefix: $prefix"
+       return
     fi
 
     # Create a temporary rebase todo file

@@ -1,17 +1,15 @@
 {
-    "packages": [
-        "go@1.24.2",
-        "nushell@latest",
-        "goreleaser@latest"
-    ],
+    "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/0.14.2/.schema/devbox.schema.json",
+    "packages": ["nushell"],
     "shell": {
-        "init_hook": [
-            "echo 'Devbox environment loaded!'"
-        ],
-        "scripts": {
-            "test": "go test ./...",
-            "build": "go build -o hello-world",
-            "run": "go run main.go"
-        }
+      "init_hook": [
+        "echo 'Welcome to devbox!' > /dev/null"
+      ],
+      "scripts": {
+        "test": [
+          "echo \"Error: no test specified\" && exit 1"
+        ]
+      }
     }
-} 
+  }
+  

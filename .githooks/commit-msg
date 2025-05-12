@@ -20,4 +20,3 @@ if ! [[ "$commit_msg" =~ $commit_pattern ]]; then
     exit 1
 fi
 
-# Add logic from squash.sh
