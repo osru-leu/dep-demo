@@ -1,145 +1,62 @@
-# DEP DEMO
+[![Codespell][codespell-badge]][codespell-link]
+[![E2E][e2e-badge]][e2e-link]
+[![Go Report Card][report-badge]][report-link]
+[![Commit Activity][commit-activity-badge]][commit-activity-link]
 
-This project uses MkDocs. For full documentation visit [mkdocs.org](https://www.mkdocs.org).
+# IDP Builder
 
-## MkDocs Commands
+Internal development platform binary launcher.
 
-* `mkdocs new [dir-name]` - Create a new project.
-* `mkdocs serve` - Start the live-reloading docs server.
-* `mkdocs build` - Build the documentation site.
-* `mkdocs -h` - Print help message and exit.
+## About
 
-## Mkdocs layout
+Spin up a complete internal developer platform using industry standard technologies like Kubernetes, Argo, and backstage with only Docker required as a dependency.
 
-    mkdocs.yml    # The configuration file.
-    docs/
-        index.md  # The documentation homepage.
-        ...       # Other markdown pages, images and other files.
+This can be useful in several ways:
+* Create a single binary which can demonstrate an IDP reference implementation.
+* Use within CI to perform integration testing.
+* Use as a local development environment for platform engineers.
 
-# Dep Demo
+## Getting Started
 
-## Development Environment
+The easiest way to get started is to grab the idpbuilder binary for your platform and run it. You can visit our [nightly releases](https://github.com/cnoe-io/idpbuilder/releases/latest) page to download the version for your system, or run the following commands:
 
-### Using Devbox
+```bash
+arch=$(if [[ "$(uname -m)" == "x86_64" ]]; then echo "amd64"; else uname -m; fi)
+os=$(uname -s | tr '[:upper:]' '[:lower:]')
 
-This project uses devbox for development environment management. 
-To get started:
 
-1. **First Time Setup**:
-   
-   ```bash
-   # Install devbox
-   curl -fsSL https://get.jetpack.io/devbox | bash
+idpbuilder_latest_tag=$(curl --silent "https://api.github.com/repos/cnoe-io/idpbuilder/releases/latest" | grep '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
+curl -LO  https://github.com/cnoe-io/idpbuilder/releases/download/$idpbuilder_latest_tag/idpbuilder-$os-$arch.tar.gz
+tar xvzf idpbuilder-$os-$arch.tar.gz
+```
 
-   # Initialize devbox
-   devbox init
+You can then run idpbuilder with the create argument to spin up your CNOE IDP:
 
-   # Add nushell to devbox
-   devbox add nu
-   ```
+```bash
+./idpbuilder create
+```
 
-2. **Regular Usage**:
-  
-   ```bash
-   # Enter devbox environment
-   devbox shell
+For more detailed information, checkout our [documentation website](https://cnoe.io/docs/reference-implementation/installations/idpbuilder) on getting started with idpbuilder.
 
-   # Start nushell (optional)
-   nu
-    ```
-## Running the Application
+## Community
 
-### Local Development
-1. **Run the Go Application**:
-   
-    ```bash
-    go run main.go
-    ```
-    The server will start at `http://localhost:8080`
+- If you have questions or concerns about this tool, please feel free to reach out to us on the [CNCF Slack Channel](https://cloud-native.slack.com/archives/C05TN9WFN5S).
+- You can also join our community meetings to meet the team and ask any questions. Checkout [this calendar](https://calendar.google.com/calendar/embed?src=064a2adfce866ccb02e61663a09f99147f22f06374e7a8994066bdc81e066986%40group.calendar.google.com&ctz=America%2FLos_Angeles) for more information.
 
-2. **Build the Binary**:
-    ```bash
-    go build -o hello-world main.go
-    ```
+## Contribution
 
-### Docker and Kind Cluster Deployment
+Checkout the [contribution doc](./CONTRIBUTING.md) for contribution guidelines and more information on how to set up your local environment.
 
-1. **Build Docker Image**:
-  
-    ```bash
-    docker build -t hello-world:latest .
-    ```
-2. **Run Docker Container locally**:
-   
-    ```bash
-    docker run -p 8080:8080 hello-world:latest
-    ```
 
-### Kubernetes Deployment
+<!-- JUST BADGES & LINKS -->
+[codespell-badge]: https://github.com/cnoe-io/idpbuilder/actions/workflows/codespell.yaml/badge.svg
+[codespell-link]: https://github.com/cnoe-io/idpbuilder/actions/workflows/codespell.yaml
 
-1. **Create and Load into Kind Cluster**:
-   
-    ```bash
-    # Create kind cluster
-    kind create cluster
+[e2e-badge]: https://github.com/cnoe-io/idpbuilder/actions/workflows/e2e.yaml/badge.svg
+[e2e-link]: https://github.com/cnoe-io/idpbuilder/actions/workflows/e2e.yaml
 
-    # Load the image into kind
-    kind load docker-image my-hello-world:latest
-    ```
+[report-badge]: https://goreportcard.com/badge/github.com/cnoe-io/idpbuilder
+[report-link]: https://goreportcard.com/report/github.com/cnoe-io/idpbuilder
 
-2. **Deploy to Kind Cluster**:
-  
-   ```bash
-    # Apply the deployment and service
-    kubectl apply -f deployent.yml
-
-    # Verify deployment
-    kubectl get pods
-    kubectl get services
-    ```
-
-### Debugging Scrachg Container in Kind
-
-1. **Add Ephemeral Debug Container**:
-    
-    ```bash
-    # Get the pod name
-    kubectl get pods
-
-    # Attach ephemeral debug container
-    kubectl debug -it <pod-name> --image=alpine --target=hello
-    ```
-
-2. **Inside Debug Container**:
-    
-    ```bash
-    # Install debugging tools
-    apk add curl wget netcat-openbsd
-
-    # Test service connectivity
-    nc -zv hello-service 80
-
-    # Make HTTP requests to service
-    wget -q0- http://hello-service
-
-    # Check process information
-    ps aux
-
-    # View network configuration
-    ip addr
-    ```
-3. **Debugging Tips**:
-    - The ephmeral container shares the same network namespace as the target container
-    - You can access the same filesystem as the scratch container
-    - Debug container is temporary and will be removed when the session ends
-    - No changes to the original deployment are required
-
-4. **Exit and Cleanup**:
-   
-    ```bash
-    # Exit the debug session
-    exit
-
-    # The ephemeral contaier is automatically cleaned up
-    ```
-
+[commit-activity-badge]: https://img.shields.io/github/commit-activity/m/cnoe-io/idpbuilder
+[commit-activity-link]: https://github.com/cnoe-io/idpbuilder/pulse
