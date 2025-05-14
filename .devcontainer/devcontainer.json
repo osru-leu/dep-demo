@@ -1,0 +1,6 @@
+{
+    "name": "Go Dev",
+    "image": "golang:1.22.5",
+    "features": {},
+    "postCreateCommand": "go mod tidy"
+}
