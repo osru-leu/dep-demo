@@ -1,0 +1,36 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: Composition
+metadata:
+  name: xrepos.github.example.org
+  labels:
+    provider: github
+spec:
+  writeConnectionSecretsToNamespace: crossplane-system
+  compositeTypeRef:
+    apiVersion: github.example.org/v1alpha1
+    kind: XRepository
+  resources:
+    - name: repository
+      base:
+        apiVersion: github.upbound.io/v1alpha1
+        kind: Repository
+        spec:
+          forProvider:
+            visibility: public
+            autoInit: true
+          providerConfigRef:
+            name: github-provider-config
+      patches:
+        - fromFieldPath: spec.name
+          toFieldPath: spec.forProvider.name
+        - fromFieldPath: spec.description
+          toFieldPath: spec.forProvider.description
+        - fromFieldPath: spec.private
+          toFieldPath: spec.forProvider.visibility
+          transforms:
+            - type: map
+              map:
+                true: private
+                false: public
+        - fromFieldPath: spec.autoInit
+          toFieldPath: spec.forProvider.autoInit

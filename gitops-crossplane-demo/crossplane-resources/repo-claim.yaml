@@ -1,0 +1,9 @@
+apiVersion: github.example.org/v1alpha1
+kind: RepoClaim
+metadata:
+  name: demo-repo
+spec:
+  name: gitops-crossplane-demo # <--- fromFieldPath: spec.name
+  description: "A demo repo created via GitOps with Crossplane" # <--- fromFieldPath: spec.description
+  private: false # Repo is public just for this demo   <--- fromFilePath: spec.private
+  autoInit: true
