@@ -1,0 +1,31 @@
+apiVersion: apiextensions.crossplane.io/v1
+kind: CompositeResourceDefinition
+metadata:
+  name: xmockresources.example.org # name of the XRD project
+spec:
+  group: example.org # the api group the custom composite will belong to
+  names:
+    kind: XMockResource 
+    plural: xmockresources # used in REST api paths and k8s CLI (e.g., kubectl get xmockresources)
+  claimNames:
+    kind: MockResource # name of the claim devs will use
+    plural: mockresources # used in kubectl commands
+  versions: # Defines versions for this composite type... you can version your schemas like reg CRDs
+    - name: v1alpha1 #version name of the composite resource. matches apiVersion suffix
+      served: true
+      referenceable: true # Allows referencing this composite in compositions or other resources
+      schema: # defines what composite resource accepts
+        openAPIV3Schema: # defines the structure of the composites spec. 
+          type: object # Of map key/value
+          properties:
+            spec:
+              type: object
+              properties:
+                parameters: # parameter field used for passing user-configurable inputs to the composite resource
+                  type: object # the object that holds input parameters
+                  properties:
+                    message:
+                      type: string
+                    replicas:
+                      type: integer
+                      default: 1

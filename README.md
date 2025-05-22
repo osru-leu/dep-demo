@@ -298,3 +298,12 @@ ingress-nginx-admission-create-fhbwq        0/1     Completed   0          3m22s
 ingress-nginx-admission-patch-md56j         0/1     Completed   0          3m22s
 ingress-nginx-controller-795dfd6796-kwrxv   1/1     Running     0          3m22s
 ~/DEP Demo>                                                                      05/12/2025 03:21:02 PM
+
+graph LR
+    A[Claim<br/>PostgreSQLInstance] --> B[Composite Resource<br/>XPostgreSQLInstance]
+    B --> C[Composition]
+    C --> D[Managed Resource<br/>AWS RDS Instance]
+    style A fill:#e1f7d5
+    style B fill:#ffebcc
+    style C fill:#f9d6ff
+    style D fill:#dae8fc

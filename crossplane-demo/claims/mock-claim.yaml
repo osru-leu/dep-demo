@@ -1,0 +1,8 @@
+apiVersion: example.org/v1alpha1
+kind: MockResource
+metadata:
+  name: test-mock
+spec:
+  parameters:
+    message: "Hello from Crossplane"
+    replicas: 2
