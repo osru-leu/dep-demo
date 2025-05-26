@@ -1,4 +1,7 @@
 site_name: Dep Demo
 nav:
   - Home: index.md
-  - About: about.md
+  - Crossplane Demos:
+    - Basic Crossplane: crossplane/basic-demo.md
+    - GitOps with Crossplane: crossplane/gitops-demo.md
+    - Architecture Details: crossplane/architecture.md

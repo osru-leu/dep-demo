@@ -35,7 +35,7 @@ changelog:
   use: github
 
 archives:
-  - formats: tar.gz
+  - formats: [tar.gz]
     name_template: "{{ .ProjectName }}_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
 
 checksum:
@@ -45,4 +45,4 @@ release:
   github:
     owner: osru-leu
     name: dep-demo
-    
+  
