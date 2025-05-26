@@ -29,6 +29,7 @@ graph TD
     style D fill:#87CEEB,color:#000000
     style E fill:#DDA0DD,color:#000000
     style I fill:#0763e5,color:#000000
+    style H fill:#0763e5,color:#000000
 ```
 
 ## Prerequisites
@@ -125,6 +126,9 @@ kubectl get xrepos.github.example.org
 # Check if the actual GitHub repository resource is created
 kubectl get repositories.repo.github.upbound.io
 # Should show SYNCED: True and READY: True with your repository name
+
+# Show complete state of the GitHub repository resource
+kubectl get repositories.repo.github.upbound.io -o yaml
 ```
 
 A successful creation will show all resources as SYNCED and READY, and the repository will be available in your GitHub account.
