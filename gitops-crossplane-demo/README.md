@@ -1,6 +1,6 @@
 # GitOps Crossplane Demo
 
-This demo shows how to use Crossplane to provision GitHub repositories through a GitOps workflow with ArgoCD.
+This demo shows how to use Crossplane to provision GitHub repositories through a GitOps workflow with ArgoCD. Instead of manually creating GitHub repositories, we'll define them as YAML and let Crossplane create them automatically through a GitOps process.
 
 ## Architecture Overview
 
@@ -34,10 +34,102 @@ graph TD
 
 ## Prerequisites
 
-- A running Kubernetes cluster (kind)
-- Crossplane installed
-- ArgoCD installed
-- GitHub account with permissions to create repositories
+- Git installed locally
+- kubectl installed locally
+- kind installed locally
+- helm installed locally
+- A GitHub account with permissions to create repositories
+
+## Setup Steps
+
+1. [Initial Cluster Setup](#initial-cluster-setup)
+2. [Crossplane Installation](#crossplane-installation)
+3. [Get Configuration Files](#get-configuration-files)
+4. [ArgoCD Installation](#argocd-installation)
+5. [GitHub Token Setup](#github-token-setup)
+6. [Initial Provider Setup](#initial-provider-setup)
+7. [ArgoCD Setup](#argocd-setup)
+8. [Creating GitHub Repositories](#creating-github-repositories-through-gitops)
+
+## Initial Cluster Setup
+
+1. Create a new kind cluster:
+```bash
+kind create cluster --name gitops-demo
+```
+
+2. Verify the cluster is running:
+```bash
+kubectl cluster-info --context kind-gitops-demo
+```
+
+## Crossplane Installation
+
+1. Install Crossplane using Helm:
+```bash
+# Add the Crossplane Helm repository
+helm repo add crossplane-stable https://charts.crossplane.io/stable
+helm repo update
+
+# Create the crossplane-system namespace
+kubectl create namespace crossplane-system
+
+# Install Crossplane
+helm install crossplane --namespace crossplane-system crossplane-stable/crossplane
+```
+
+2. Wait for Crossplane to be ready:
+```bash
+kubectl wait --for=condition=ready pod -l app=crossplane --namespace crossplane-system --timeout=60s
+kubectl wait --for=condition=ready pod -l app=crossplane-rbac-manager --namespace crossplane-system --timeout=60s
+```
+
+## Get Configuration Files
+
+1. Clone this demo repository to get the required YAML files:
+```bash
+git clone https://github.com/osru-leu/gitops-crossplane-demo.git
+cd gitops-crossplane-demo
+```
+
+2. Verify you have all the required files:
+```bash
+ls -la crossplane-resources/
+# Should see:
+# - provider.yaml
+# - provider-config.yaml
+# - repo-definition.yaml
+# - repo-composition.yaml
+# - repo-claim.yaml
+
+ls -la argocd/
+# Should see:
+# - application.yaml
+```
+
+These files define:
+- Crossplane GitHub provider configuration
+- Custom resource definition for GitHub repositories
+- Composition for mapping repository claims to GitHub repositories
+- Example repository claim
+- ArgoCD application configuration
+
+## ArgoCD Installation
+
+1. Create the ArgoCD namespace:
+```bash
+kubectl create namespace argocd
+```
+
+2. Install ArgoCD using the official manifest:
+```bash
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+
+3. Wait for ArgoCD components to be ready:
+```bash
+kubectl wait --for=condition=available deployment -l "app.kubernetes.io/part-of=argocd" -n argocd --timeout=2m
+```
 
 ## GitHub Token Setup
 
@@ -71,67 +163,142 @@ gh auth status
 # The token should show access to 'repo' scope
 ```
 
-## Configuration Files
+## Initial Provider Setup
 
-- `crossplane-resources/`
-  - `provider-config.yaml`: Configures the GitHub provider (references the secret)
-  - `repo-definition.yaml`: Defines the RepoClaim custom resource
-  - `repo-composition.yaml`: Maps RepoClaim fields to GitHub repository settings
-  - `repo-claim.yaml`: Example repository claim
-- `argocd/`
-  - `application.yaml`: ArgoCD application configuration
+These steps need to be performed manually before ArgoCD can manage the Crossplane resources:
 
-## Health Checks
-
-Verify the setup is working correctly:
-
+1. Install the GitHub provider:
 ```bash
-# Check Crossplane and provider pods
-kubectl get pods -n crossplane-system
+cd gitops-crossplane-demo  # if not already in the directory
+kubectl apply -f crossplane-resources/provider.yaml
+```
 
-# Verify GitHub provider status
-kubectl get providers
+2. Wait for the provider to be healthy:
+```bash
+kubectl wait --for=condition=healthy provider.pkg.crossplane.io/provider-github --timeout=2m
+```
 
-# List all GitHub-related CRDs
-kubectl get crds | grep github
+3. Apply the provider configuration (which uses the GitHub token):
+```bash
+kubectl apply -f crossplane-resources/provider-config.yaml
+```
 
-# Check provider configuration
-kubectl get providerconfigs
+Note: Only the provider setup files (`provider.yaml` and `provider-config.yaml`) need to be applied manually. Do NOT manually apply:
+- `repo-definition.yaml`
+- `repo-composition.yaml`
+- `repo-claim.yaml`
 
-# Check ArgoCD installation and status
-kubectl get pods -n argocd
+These files will be automatically applied by ArgoCD once it's configured in the next step.
 
-# Verify ArgoCD applications
+## ArgoCD Setup
+
+1. First, ensure you can access the ArgoCD UI:
+```bash
+# Get the ArgoCD admin password
+kubectl -n argocd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+# Port forward the ArgoCD UI (if needed)
+kubectl port-forward svc/argocd-server -n argocd 8080:443
+```
+
+2. Apply the ArgoCD Application configuration:
+```bash
+kubectl apply -f argocd/application.yaml
+```
+
+3. Verify the Application is created and properly configured:
+```bash
+# Check application status
+kubectl get applications -n argocd crossplane-github-repos
+
+# Get detailed sync status
+kubectl describe applications -n argocd crossplane-github-repos
+```
+
+At this point, ArgoCD will automatically detect and apply:
+- The Custom Resource Definition (`repo-definition.yaml`)
+- The Composition (`repo-composition.yaml`)
+- The Repository Claim (`repo-claim.yaml`)
+
+You can verify this by watching the resources appear in your cluster:
+```bash
+# Watch for the CRD to be created
+kubectl get crds | grep repoclaims
+
+# Watch for the composition
+kubectl get compositions
+
+# Watch for the repository claim
+kubectl get repoclaim
+```
+
+## Creating GitHub Repositories through GitOps
+
+At this point, ArgoCD will automatically:
+1. Monitor the `crossplane-resources` directory
+2. Apply the Custom Resource Definition (`repo-definition.yaml`)
+3. Apply the Composition (`repo-composition.yaml`)
+4. Create GitHub repositories based on any `RepoClaim` resources
+
+To create a new GitHub repository:
+1. The `repo-claim.yaml` file defines the repository specifications:
+```yaml
+apiVersion: github.example.org/v1alpha1
+kind: RepoClaim
+metadata:
+  name: demo-repo
+spec:
+  name: gitops-crossplane-demo
+  description: "A demo repo created via GitOps with Crossplane"
+  private: false
+  autoInit: true
+```
+
+2. ArgoCD will automatically apply this claim
+3. Crossplane will create the GitHub repository according to the specifications
+
+## Monitoring and Verification
+
+You can monitor the process through:
+
+1. ArgoCD UI (port-forwarded to localhost:8080)
+2. Command line:
+```bash
+# Check ArgoCD application status
 kubectl get applications -n argocd
 
-# Get detailed status of our GitOps application
-kubectl describe application crossplane-github-repos -n argocd
-```
-
-All pods should be in Running state, the provider should show as HEALTHY, and you should see various GitHub-related CRDs including `repositories.repo.github.upbound.io` and your custom `repoclaims.github.example.org`. ArgoCD pods should all be Running, and your application should show as Healthy and Synced.
-
-## Verify Repository Creation
-
-After applying your RepoClaim, verify the repository was created successfully:
-
-```bash
-# Check the claim status
+# Check Crossplane resources
+kubectl get providers
+kubectl get providerconfigs
 kubectl get repoclaim
-# Should show SYNCED: True and READY: True
 
-# Check the XRepository (composite resource) status
-kubectl get xrepos.github.example.org
-# Should show SYNCED: True and READY: True
-
-# Check if the actual GitHub repository resource is created
+# Check if the repository was created
 kubectl get repositories.repo.github.upbound.io
-# Should show SYNCED: True and READY: True with your repository name
-
-# Show complete state of the GitHub repository resource
-kubectl get repositories.repo.github.upbound.io -o yaml
 ```
 
-A successful creation will show all resources as SYNCED and READY, and the repository will be available in your GitHub account.
+## Making Changes
+
+To create additional repositories or modify existing ones:
+
+1. Add or modify `RepoClaim` resources in the `crossplane-resources` directory
+2. ArgoCD will automatically detect and apply the changes
+3. Crossplane will create or update the GitHub repositories accordingly
+
+## Troubleshooting
+
+Common issues and their solutions:
+
+1. ArgoCD application shows "app path does not exist":
+   - Verify the repository URL in your ArgoCD application configuration
+   - Ensure all YAML files are in the correct directory structure
+
+2. Crossplane provider not becoming healthy:
+   - Check provider logs: `kubectl logs -n crossplane-system -l pkg.crossplane.io/provider=provider-github`
+   - Verify GitHub token secret is correctly formatted
+
+3. Repository creation fails:
+   - Check the RepoClaim status: `kubectl describe repoclaim demo-repo`
+   - Verify GitHub token has sufficient permissions
 
 ## Security Note
 
