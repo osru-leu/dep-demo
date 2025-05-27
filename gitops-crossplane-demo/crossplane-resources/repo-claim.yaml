@@ -7,3 +7,6 @@ spec:
   description: "A demo repo created via GitOps with Crossplane" 
   private: false 
   autoInit: true
+  workflow:
+    language: "go"
+    appName: "demo-app"

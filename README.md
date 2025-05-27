@@ -225,80 +225,8 @@ If you have questions about idpbuilder, you can:
 [commit-activity-badge]: https://img.shields.io/github/commit-activity/m/cnoe-io/idpbuilder
 [commit-activity-link]: https://github.com/cnoe-io/idpbuilder/pulse
 
-## Troubleshooting
-```bash
-./idpbuilder create
-May 12 15:17:36 INFO Creating kind cluster logger=setup 
-May 12 15:17:36 INFO Cluster already exists logger=setup cluster=localdev 
-May 12 15:17:36 INFO Adding CRDs to the cluster logger=setup 
-May 12 15:17:37 INFO Setting up CoreDNS logger=setup 
-May 12 15:17:37 INFO Setting up TLS certificate logger=setup 
-May 12 15:17:37 INFO Creating localbuild resource logger=setup 
-May 12 15:17:37 INFO Starting EventSource controller=gitrepository controllerGroup=idpbuilder.cnoe.io controllerKind=GitRepository source=kind source: *v1alpha1.GitRepository 
-May 12 15:17:37 INFO Starting Controller controller=gitrepository controllerGroup=idpbuilder.cnoe.io controllerKind=GitRepository 
-May 12 15:17:37 INFO Starting EventSource controller=custompackage controllerGroup=idpbuilder.cnoe.io controllerKind=CustomPackage source=kind source: *v1alpha1.CustomPackage 
-May 12 15:17:37 INFO Starting Controller controller=custompackage controllerGroup=idpbuilder.cnoe.io controllerKind=CustomPackage 
-May 12 15:17:37 INFO Starting EventSource controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild source=kind source: *v1alpha1.Localbuild 
-May 12 15:17:37 INFO Starting Controller controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild 
-May 12 15:17:37 INFO Starting workers controller=gitrepository controllerGroup=idpbuilder.cnoe.io controllerKind=GitRepository worker count=1 
-May 12 15:17:37 INFO Starting workers controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild worker count=1 
-May 12 15:17:37 INFO Starting workers controller=custompackage controllerGroup=idpbuilder.cnoe.io controllerKind=CustomPackage worker count=1 
-May 12 15:17:40 INFO Waiting for Deployment ingress-nginx-controller to become ready controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=6eb4ab94-1d9f-4044-99c1-273f8ee8d97e 
-May 12 15:17:40 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=6eb4ab94-1d9f-4044-99c1-273f8ee8d97e 
-May 12 15:17:40 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=312eb209-10ab-4b70-842e-0c654c14e2fc 
-May 12 15:17:45 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=23618a33-e667-4c10-83be-6f075ddc4145 
-May 12 15:17:50 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=b3307fe6-7902-4468-a5ab-ae9572efb416 
-May 12 15:17:55 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=38601389-ca33-4f02-bdac-71e5076d638e 
-May 12 15:18:00 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=3a0ee6ae-79bb-457d-8b65-f4512ecda43e 
-May 12 15:18:05 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=cf748906-f85d-400d-87c4-2f0bd41d8b0d 
-May 12 15:18:10 INFO Waiting for Deployment ingress-nginx-controller to become ready controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=6eb4ab94-1d9f-4044-99c1-273f8ee8d97e 
-May 12 15:18:11 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=db09973b-9c86-4b0e-882b-72c1767c1b2f 
-May 12 15:18:16 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=81aa75f4-1e13-4722-b83d-2e6c0c6e9512 
-May 12 15:18:21 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=32855bab-f010-4f6b-83a9-fdf2b1c2a5c5 
-May 12 15:18:26 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=66f1b7e6-800c-4b58-89a7-c81eb8245db6 
-May 12 15:18:31 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=66ddc6f9-0f69-4c84-a693-cbeae97335ec 
-May 12 15:18:36 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=e714b62e-5eca-4827-b562-0d711033fd86 
-May 12 15:18:40 INFO Waiting for Deployment ingress-nginx-controller to become ready controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=6eb4ab94-1d9f-4044-99c1-273f8ee8d97e 
-May 12 15:18:41 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=c3f03f71-6d67-4dee-b35d-181d209e624f 
-May 12 15:18:46 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=ccf32d4c-4bd4-4b55-94f1-1c4d6866f46e 
-May 12 15:18:51 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=5a3d845f-22dd-4135-b943-01cc54dac754 
-May 12 15:18:56 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=d7331f55-4033-4048-97a7-c5310a4d1c3d 
-May 12 15:19:01 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=fdc139cb-cbd3-43c0-8750-e878ec08ec6b 
-May 12 15:19:06 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=1178ed0e-005f-46ef-b132-226041351388 
-May 12 15:19:10 INFO Waiting for Deployment ingress-nginx-controller to become ready controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=6eb4ab94-1d9f-4044-99c1-273f8ee8d97e 
-May 12 15:19:11 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=9cd74d94-37d6-4174-82e1-d56062df738c 
-May 12 15:19:16 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=fb975096-cff1-40c5-8f3a-6d6f7384ecfe 
-May 12 15:19:21 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=0a701c5f-8bcc-4f05-97cb-ab7ff325c65d 
-May 12 15:19:26 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=7d8ffba6-9b3a-45dc-bafa-7a8bba8e2879 
-May 12 15:19:31 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=e719f332-2641-4081-a417-692ba556ff09 
-May 12 15:19:36 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=799713a2-94f7-4005-bf4b-b04511f73118 
-May 12 15:19:40 INFO Waiting for Deployment ingress-nginx-controller to become ready controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=6eb4ab94-1d9f-4044-99c1-273f8ee8d97e 
-May 12 15:19:41 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=c62fa1aa-b590-4e94-98de-1f0a0a75b1fb 
-May 12 15:19:46 INFO Checking if we should shutdown controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild name=localdev name=localdev reconcileID=4c09456f-16d0-4815-a9ae-34c5cb8af82a 
-^CMay 12 15:19:49 INFO Stopping and waiting for non leader election runnables 
-May 12 15:19:49 INFO Stopping and waiting for leader election runnables 
-May 12 15:19:49 INFO Shutdown signal received, waiting for all workers to finish controller=custompackage controllerGroup=idpbuilder.cnoe.io controllerKind=CustomPackage 
-May 12 15:19:49 INFO All workers finished controller=custompackage controllerGroup=idpbuilder.cnoe.io controllerKind=CustomPackage 
-May 12 15:19:49 INFO Shutdown signal received, waiting for all workers to finish controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild 
-May 12 15:19:49 INFO Shutdown signal received, waiting for all workers to finish controller=gitrepository controllerGroup=idpbuilder.cnoe.io controllerKind=GitRepository 
-May 12 15:19:49 INFO All workers finished controller=gitrepository controllerGroup=idpbuilder.cnoe.io controllerKind=GitRepository 
-May 12 15:19:49 INFO All workers finished controller=localbuild controllerGroup=idpbuilder.cnoe.io controllerKind=Localbuild 
-May 12 15:19:49 INFO Stopping and waiting for caches 
-May 12 15:19:49 INFO Stopping and waiting for webhooks 
-May 12 15:19:49 INFO Stopping and waiting for HTTP servers 
-May 12 15:19:49 INFO Wait completed, proceeding to shutdown the manager 
-Error: command interrupted
-command interrupted
-~/DEP Demo> kubectl get pods -n ingress-nginx
-I0512 15:20:04.155552   50166 versioner.go:119] Right kubectl missing, downloading version 1.31.4
-Downloading https://dl.k8s.io/release/v1.31.4/bin/darwin/arm64/kubectl
-kubectl1.31.4 100% |████████████████████████████████████████| (57/57 MB, 986 kB/s) done.         
-NAME                                        READY   STATUS      RESTARTS   AGE
-ingress-nginx-admission-create-fhbwq        0/1     Completed   0          3m22s
-ingress-nginx-admission-patch-md56j         0/1     Completed   0          3m22s
-ingress-nginx-controller-795dfd6796-kwrxv   1/1     Running     0          3m22s
-~/DEP Demo>                                                                      05/12/2025 03:21:02 PM
 
+```mermaid
 graph LR
     A[Claim<br/>PostgreSQLInstance] --> B[Composite Resource<br/>XPostgreSQLInstance]
     B --> C[Composition]
@@ -307,3 +235,4 @@ graph LR
     style B fill:#ffebcc
     style C fill:#f9d6ff
     style D fill:#dae8fc
+```

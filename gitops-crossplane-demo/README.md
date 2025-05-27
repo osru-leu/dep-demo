@@ -136,3 +136,15 @@ A successful creation will show all resources as SYNCED and READY, and the repos
 ## Security Note
 
 The GitHub PAT is sensitive and should NEVER be committed to any repository. The secret is created directly in the cluster and referenced by the provider configuration. 
+
+
+## Workflow Setup Through GitOps:
+
+```mermaid
+graph LR
+    A[gitops-crossplane-demo<br/>.github/workflows/dev-pipeline.yml] -->|uses| B[platform-github-actions<br/>Reusable Workflows]
+    B -->|contains| C[setup-image-tag.yml]
+    B -->|contains| D[lint-language.yml]
+    B -->|contains| E[test-language.yml]
+    B -->|contains| F[Other workflows]
+```
