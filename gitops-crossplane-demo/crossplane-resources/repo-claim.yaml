@@ -3,7 +3,7 @@ kind: RepoClaim
 metadata:
   name: demo-repo
 spec:
-  name: gitops-crossplane-demo 
-  description: "A demo repo created via GitOps with Crossplane" 
+  name: gitops-crossplane-demo
+  description: "A demo repo created via GitOps with Crossplane: syncing..." 
   private: false 
   autoInit: true

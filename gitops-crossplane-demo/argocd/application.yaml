@@ -6,8 +6,8 @@ metadata:
 spec:
   project: default
   source:
-    repoURL: https://github.com/osru-leu/gitops-crossplane-demo.git
-    path: crossplane-resources
+    repoURL: https://github.com/osru-leu/dep-demo.git
+    path: gitops-crossplane-demo/crossplane-resources
     targetRevision: main
   destination:
     server: https://kubernetes.default.svc
