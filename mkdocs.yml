@@ -1,7 +1,18 @@
 site_name: Dep Demo
 nav:
   - Home: index.md
-  - Crossplane Demos:
-    - Basic Crossplane: crossplane/basic-demo.md
-    - GitOps with Crossplane: crossplane/gitops-demo.md
-    - Architecture Details: crossplane/architecture.md
+  - Architecture: architecture.md
+  - Getting Started: getting-started.md
+  - API Reference: api-referencel.md
+
+plugins:
+  - techdocs-core
+
+markdown_extensions:
+  - adomition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: mermaid
