@@ -9,6 +9,8 @@ spec:
     repoURL: https://github.com/osru-leu/dep-demo.git
     path: gitops-crossplane-demo/crossplane-resources
     targetRevision: main
+    directory:
+      recurse: true
   destination:
     server: https://kubernetes.default.svc
     namespace: default
