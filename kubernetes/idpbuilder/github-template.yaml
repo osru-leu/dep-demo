@@ -1,0 +1,16 @@
+apiVersion: idpbuilder.cnoe.io/v1alpha1
+kind: CustomPackage
+metadata:
+  name: github-repo-template
+spec:
+  gitServerURL: https://gitea.cnoe.localtest.me:8443
+  internalGitServeURL: http://my-gitea-http.gitea.svc.cluster.local:3000
+  gitServerAuthSecretRef:
+    name: gitea-credential
+    namespace: gitea
+  remoteRepository:
+    url: https://github.com/osru-leu/dep-demo.git
+    ref: feat/backstage-with-cnoe
+    path: kubernetes/backstage
+    cloneSubmodules: false
+  replicate: true 

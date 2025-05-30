@@ -1,0 +1,46 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: backstage-config
+  namespace: backstage
+data:
+  app-config.yaml: |
+    app:
+      title: Backstage
+      baseUrl: http://localhost:7007
+
+    organization:
+      name: My Company
+
+    backend:
+      baseUrl: http://localhost:7007
+      listen:
+        port: 7007
+      cors:
+        origin: http://localhost:7007
+        methods: [GET, HEAD, POST, PUT, DELETE]
+
+    catalog:
+      locations:
+        - type: url
+          # target: https://github.com/osru-leu/dep-demo/blob/main/catalog-info.yaml # default
+          target: https://github.com/osru-leu/dep-demo/blob/feat/backstage-with-cnoe/catalog-info.yaml
+          rules:
+            - allow: [Component, System, API, Resource, Location, Template]
+
+    integrations:
+      github:
+        - host: github.com
+          token: ${GITHUB_TOKEN}
+
+    kubernetes:
+      serviceLocatorMethod:
+        type: 'multiTenant'
+      clusterLocatorMethods:
+        - type: 'config'
+          clusters:
+            - url: ${K8S_CLUSTER_URL}
+              name: local-cluster
+              authProvider: 'serviceAccount'
+              serviceAccountToken: ${K8S_SA_TOKEN}
+              skipTLSVerify: true 
